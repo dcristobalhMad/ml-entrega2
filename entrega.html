@@ -264,29 +264,773 @@ cuanto al caso de uso:</p>
 <li><p>La solución debe estar basada en aprendizaje automático, es decir, se debe haber
 entrenado al menos un algoritmo.</p></li>
 </ol>
+<p><img alt="nba-logo" src="_images/nba-logo.png" /></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="kn">import</span> <span class="nn">zipfile</span> <span class="k">as</span> <span class="nn">zp</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">sklearn.preprocessing</span> <span class="k">as</span> <span class="nn">prep</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">mean_absolute_error</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">mean_squared_error</span>
-<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
-<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">utils</span>
-<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVR</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello world!&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hello world!
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matplotlib is building the font cache; this may take a moment.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Carga de los dataframes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zf</span> <span class="o">=</span> <span class="n">zp</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="s1">&#39;dataframes/nba.zip&#39;</span><span class="p">)</span>
+<span class="n">df_games</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;games.csv&#39;</span><span class="p">))</span>
+<span class="n">df_games_details</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;games_details.csv&#39;</span><span class="p">))</span>
+<span class="n">df_players</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;players.csv&#39;</span><span class="p">))</span>
+<span class="n">df_ranking</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;ranking.csv&#39;</span><span class="p">))</span>
+<span class="n">df_teams</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;teams.csv&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1846/1756342927.py:3: DtypeWarning: Columns (6) have mixed types. Specify dtype option on import or set low_memory=False.
+  df_games_details = pd.read_csv(zf.open(&#39;games_details.csv&#39;))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Muestra varias filas de cada dataframe para realizar un primer analisis</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------- PARTIDOS ----------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-----------------------------&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_games</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------- DETALLES PARTIDOS ----------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_games_details</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------- JUGADORES ----------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------------------&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_players</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------- RANKING LIGA ----------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_ranking</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------- EQUIPOS ----------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_teams</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------- PARTIDOS ----------
+-----------------------------
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GAME_DATE_EST</th>
+      <th>GAME_ID</th>
+      <th>GAME_STATUS_TEXT</th>
+      <th>HOME_TEAM_ID</th>
+      <th>VISITOR_TEAM_ID</th>
+      <th>SEASON</th>
+      <th>TEAM_ID_home</th>
+      <th>PTS_home</th>
+      <th>FG_PCT_home</th>
+      <th>FT_PCT_home</th>
+      <th>...</th>
+      <th>AST_home</th>
+      <th>REB_home</th>
+      <th>TEAM_ID_away</th>
+      <th>PTS_away</th>
+      <th>FG_PCT_away</th>
+      <th>FT_PCT_away</th>
+      <th>FG3_PCT_away</th>
+      <th>AST_away</th>
+      <th>REB_away</th>
+      <th>HOME_TEAM_WINS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2022-12-22</td>
+      <td>22200477</td>
+      <td>Final</td>
+      <td>1610612740</td>
+      <td>1610612759</td>
+      <td>2022</td>
+      <td>1610612740</td>
+      <td>126.0</td>
+      <td>0.484</td>
+      <td>0.926</td>
+      <td>...</td>
+      <td>25.0</td>
+      <td>46.0</td>
+      <td>1610612759</td>
+      <td>117.0</td>
+      <td>0.478</td>
+      <td>0.815</td>
+      <td>0.321</td>
+      <td>23.0</td>
+      <td>44.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2022-12-22</td>
+      <td>22200478</td>
+      <td>Final</td>
+      <td>1610612762</td>
+      <td>1610612764</td>
+      <td>2022</td>
+      <td>1610612762</td>
+      <td>120.0</td>
+      <td>0.488</td>
+      <td>0.952</td>
+      <td>...</td>
+      <td>16.0</td>
+      <td>40.0</td>
+      <td>1610612764</td>
+      <td>112.0</td>
+      <td>0.561</td>
+      <td>0.765</td>
+      <td>0.333</td>
+      <td>20.0</td>
+      <td>37.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2022-12-21</td>
+      <td>22200466</td>
+      <td>Final</td>
+      <td>1610612739</td>
+      <td>1610612749</td>
+      <td>2022</td>
+      <td>1610612739</td>
+      <td>114.0</td>
+      <td>0.482</td>
+      <td>0.786</td>
+      <td>...</td>
+      <td>22.0</td>
+      <td>37.0</td>
+      <td>1610612749</td>
+      <td>106.0</td>
+      <td>0.470</td>
+      <td>0.682</td>
+      <td>0.433</td>
+      <td>20.0</td>
+      <td>46.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2022-12-21</td>
+      <td>22200467</td>
+      <td>Final</td>
+      <td>1610612755</td>
+      <td>1610612765</td>
+      <td>2022</td>
+      <td>1610612755</td>
+      <td>113.0</td>
+      <td>0.441</td>
+      <td>0.909</td>
+      <td>...</td>
+      <td>27.0</td>
+      <td>49.0</td>
+      <td>1610612765</td>
+      <td>93.0</td>
+      <td>0.392</td>
+      <td>0.735</td>
+      <td>0.261</td>
+      <td>15.0</td>
+      <td>46.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2022-12-21</td>
+      <td>22200468</td>
+      <td>Final</td>
+      <td>1610612737</td>
+      <td>1610612741</td>
+      <td>2022</td>
+      <td>1610612737</td>
+      <td>108.0</td>
+      <td>0.429</td>
+      <td>1.000</td>
+      <td>...</td>
+      <td>22.0</td>
+      <td>47.0</td>
+      <td>1610612741</td>
+      <td>110.0</td>
+      <td>0.500</td>
+      <td>0.773</td>
+      <td>0.292</td>
+      <td>20.0</td>
+      <td>47.0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 21 columns</p>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------- DETALLES PARTIDOS ----------
+--------------------------------------
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GAME_ID</th>
+      <th>TEAM_ID</th>
+      <th>TEAM_ABBREVIATION</th>
+      <th>TEAM_CITY</th>
+      <th>PLAYER_ID</th>
+      <th>PLAYER_NAME</th>
+      <th>NICKNAME</th>
+      <th>START_POSITION</th>
+      <th>COMMENT</th>
+      <th>MIN</th>
+      <th>...</th>
+      <th>OREB</th>
+      <th>DREB</th>
+      <th>REB</th>
+      <th>AST</th>
+      <th>STL</th>
+      <th>BLK</th>
+      <th>TO</th>
+      <th>PF</th>
+      <th>PTS</th>
+      <th>PLUS_MINUS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>22200477</td>
+      <td>1610612759</td>
+      <td>SAS</td>
+      <td>San Antonio</td>
+      <td>1629641</td>
+      <td>Romeo Langford</td>
+      <td>Romeo</td>
+      <td>F</td>
+      <td>NaN</td>
+      <td>18:06</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>5.0</td>
+      <td>2.0</td>
+      <td>-2.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>22200477</td>
+      <td>1610612759</td>
+      <td>SAS</td>
+      <td>San Antonio</td>
+      <td>1631110</td>
+      <td>Jeremy Sochan</td>
+      <td>Jeremy</td>
+      <td>F</td>
+      <td>NaN</td>
+      <td>31:01</td>
+      <td>...</td>
+      <td>6.0</td>
+      <td>3.0</td>
+      <td>9.0</td>
+      <td>6.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>23.0</td>
+      <td>-14.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>22200477</td>
+      <td>1610612759</td>
+      <td>SAS</td>
+      <td>San Antonio</td>
+      <td>1627751</td>
+      <td>Jakob Poeltl</td>
+      <td>Jakob</td>
+      <td>C</td>
+      <td>NaN</td>
+      <td>21:42</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>4.0</td>
+      <td>13.0</td>
+      <td>-4.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>22200477</td>
+      <td>1610612759</td>
+      <td>SAS</td>
+      <td>San Antonio</td>
+      <td>1630170</td>
+      <td>Devin Vassell</td>
+      <td>Devin</td>
+      <td>G</td>
+      <td>NaN</td>
+      <td>30:20</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>9.0</td>
+      <td>9.0</td>
+      <td>5.0</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>10.0</td>
+      <td>-18.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>22200477</td>
+      <td>1610612759</td>
+      <td>SAS</td>
+      <td>San Antonio</td>
+      <td>1630200</td>
+      <td>Tre Jones</td>
+      <td>Tre</td>
+      <td>G</td>
+      <td>NaN</td>
+      <td>27:44</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>19.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 29 columns</p>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------- JUGADORES ----------
+------------------------------
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PLAYER_NAME</th>
+      <th>TEAM_ID</th>
+      <th>PLAYER_ID</th>
+      <th>SEASON</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Royce O'Neale</td>
+      <td>1610612762</td>
+      <td>1626220</td>
+      <td>2019</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bojan Bogdanovic</td>
+      <td>1610612762</td>
+      <td>202711</td>
+      <td>2019</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Rudy Gobert</td>
+      <td>1610612762</td>
+      <td>203497</td>
+      <td>2019</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Donovan Mitchell</td>
+      <td>1610612762</td>
+      <td>1628378</td>
+      <td>2019</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Mike Conley</td>
+      <td>1610612762</td>
+      <td>201144</td>
+      <td>2019</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------- RANKING LIGA ----------
+---------------------------------
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TEAM_ID</th>
+      <th>LEAGUE_ID</th>
+      <th>SEASON_ID</th>
+      <th>STANDINGSDATE</th>
+      <th>CONFERENCE</th>
+      <th>TEAM</th>
+      <th>G</th>
+      <th>W</th>
+      <th>L</th>
+      <th>W_PCT</th>
+      <th>HOME_RECORD</th>
+      <th>ROAD_RECORD</th>
+      <th>RETURNTOPLAY</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1610612743</td>
+      <td>0</td>
+      <td>22022</td>
+      <td>2022-12-22</td>
+      <td>West</td>
+      <td>Denver</td>
+      <td>30</td>
+      <td>19</td>
+      <td>11</td>
+      <td>0.633</td>
+      <td>10-3</td>
+      <td>9-8</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1610612763</td>
+      <td>0</td>
+      <td>22022</td>
+      <td>2022-12-22</td>
+      <td>West</td>
+      <td>Memphis</td>
+      <td>30</td>
+      <td>19</td>
+      <td>11</td>
+      <td>0.633</td>
+      <td>13-2</td>
+      <td>6-9</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1610612740</td>
+      <td>0</td>
+      <td>22022</td>
+      <td>2022-12-22</td>
+      <td>West</td>
+      <td>New Orleans</td>
+      <td>31</td>
+      <td>19</td>
+      <td>12</td>
+      <td>0.613</td>
+      <td>13-4</td>
+      <td>6-8</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1610612756</td>
+      <td>0</td>
+      <td>22022</td>
+      <td>2022-12-22</td>
+      <td>West</td>
+      <td>Phoenix</td>
+      <td>32</td>
+      <td>19</td>
+      <td>13</td>
+      <td>0.594</td>
+      <td>14-4</td>
+      <td>5-9</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1610612746</td>
+      <td>0</td>
+      <td>22022</td>
+      <td>2022-12-22</td>
+      <td>West</td>
+      <td>LA Clippers</td>
+      <td>33</td>
+      <td>19</td>
+      <td>14</td>
+      <td>0.576</td>
+      <td>11-7</td>
+      <td>8-7</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------- EQUIPOS ----------
+----------------------------
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LEAGUE_ID</th>
+      <th>TEAM_ID</th>
+      <th>MIN_YEAR</th>
+      <th>MAX_YEAR</th>
+      <th>ABBREVIATION</th>
+      <th>NICKNAME</th>
+      <th>YEARFOUNDED</th>
+      <th>CITY</th>
+      <th>ARENA</th>
+      <th>ARENACAPACITY</th>
+      <th>OWNER</th>
+      <th>GENERALMANAGER</th>
+      <th>HEADCOACH</th>
+      <th>DLEAGUEAFFILIATION</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>1610612737</td>
+      <td>1949</td>
+      <td>2019</td>
+      <td>ATL</td>
+      <td>Hawks</td>
+      <td>1949</td>
+      <td>Atlanta</td>
+      <td>State Farm Arena</td>
+      <td>18729.0</td>
+      <td>Tony Ressler</td>
+      <td>Travis Schlenk</td>
+      <td>Lloyd Pierce</td>
+      <td>Erie Bayhawks</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>1610612738</td>
+      <td>1946</td>
+      <td>2019</td>
+      <td>BOS</td>
+      <td>Celtics</td>
+      <td>1946</td>
+      <td>Boston</td>
+      <td>TD Garden</td>
+      <td>18624.0</td>
+      <td>Wyc Grousbeck</td>
+      <td>Danny Ainge</td>
+      <td>Brad Stevens</td>
+      <td>Maine Red Claws</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>1610612740</td>
+      <td>2002</td>
+      <td>2019</td>
+      <td>NOP</td>
+      <td>Pelicans</td>
+      <td>2002</td>
+      <td>New Orleans</td>
+      <td>Smoothie King Center</td>
+      <td>NaN</td>
+      <td>Tom Benson</td>
+      <td>Trajan Langdon</td>
+      <td>Alvin Gentry</td>
+      <td>No Affiliate</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>1610612741</td>
+      <td>1966</td>
+      <td>2019</td>
+      <td>CHI</td>
+      <td>Bulls</td>
+      <td>1966</td>
+      <td>Chicago</td>
+      <td>United Center</td>
+      <td>21711.0</td>
+      <td>Jerry Reinsdorf</td>
+      <td>Gar Forman</td>
+      <td>Jim Boylen</td>
+      <td>Windy City Bulls</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>1610612742</td>
+      <td>1980</td>
+      <td>2019</td>
+      <td>DAL</td>
+      <td>Mavericks</td>
+      <td>1980</td>
+      <td>Dallas</td>
+      <td>American Airlines Center</td>
+      <td>19200.0</td>
+      <td>Mark Cuban</td>
+      <td>Donnie Nelson</td>
+      <td>Rick Carlisle</td>
+      <td>Texas Legends</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Muestra filas y columnas de cada dataframe</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------- PARTIDOS ----------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-----------------------------&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_games</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------- DETALLES PARTIDOS ----------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_games_details</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------- JUGADORES ----------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------------------&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_players</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------- RANKING LIGA ----------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------------&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_ranking</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------- EQUIPOS ----------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------------------&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_teams</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------- PARTIDOS ----------
+-----------------------------
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(26651, 21)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------- DETALLES PARTIDOS ----------
+--------------------------------------
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(668628, 29)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------- JUGADORES ----------
+------------------------------
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(7228, 4)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------- RANKING LIGA ----------
+---------------------------------
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(210342, 13)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--------- EQUIPOS ----------
+----------------------------
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(30, 14)
 </pre></div>
 </div>
 </div>
