@@ -291,7 +291,7 @@ entrenado al menos un algoritmo.</p></li>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2024/1756342927.py:3: DtypeWarning: Columns (6) have mixed types. Specify dtype option on import or set low_memory=False.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2061/1756342927.py:3: DtypeWarning: Columns (6) have mixed types. Specify dtype option on import or set low_memory=False.
   df_games_details = pd.read_csv(zf.open(&#39;games_details.csv&#39;))
 </pre></div>
 </div>
@@ -2309,6 +2309,47 @@ dtype: int64
   </tbody>
 </table>
 </div></div></div>
+</div>
+<p>En el df de partidos podemos ver que hay NaN en el 2003, borramos todas las filas con partidos anteriores al 2010 y comprobamos si se han quedado NaN</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_games</span> <span class="o">=</span> <span class="n">df_games</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_games</span><span class="p">[</span><span class="s1">&#39;GAME_DATE_EST&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s2">&quot;2004-01-01&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_games</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GAME_DATE_EST       0
+GAME_ID             0
+GAME_STATUS_TEXT    0
+HOME_TEAM_ID        0
+VISITOR_TEAM_ID     0
+SEASON              0
+TEAM_ID_home        0
+PTS_home            0
+FG_PCT_home         0
+FT_PCT_home         0
+FG3_PCT_home        0
+AST_home            0
+REB_home            0
+TEAM_ID_away        0
+PTS_away            0
+FG_PCT_away         0
+FT_PCT_away         0
+FG3_PCT_away        0
+AST_away            0
+REB_away            0
+HOME_TEAM_WINS      0
+dtype: int64
+</pre></div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
