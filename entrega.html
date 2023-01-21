@@ -265,6 +265,7 @@ cuanto al caso de uso:</p>
 entrenado al menos un algoritmo.</p></li>
 </ol>
 <p><img alt="nba-logo" src="_images/nba-logo.png" /></p>
+<p>Una empresa dedicada a las apuestas, necesita un modelo de entrenamiento fiable en el cual poder saber si gana un equipo u otro dependiendo de unos datos de entrada. En este ejercicio se haran pruebas de distintos modelos y se seleccionaran distintas variables para probar su eficacia.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
@@ -272,7 +273,10 @@ entrenado al menos un algoritmo.</p></li>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
 <span class="kn">import</span> <span class="nn">zipfile</span> <span class="k">as</span> <span class="nn">zp</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">import</span> <span class="nn">sklearn.preprocessing</span> <span class="k">as</span> <span class="nn">prep</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">SelectKBest</span><span class="p">,</span> <span class="n">chi2</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">mean_absolute_error</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">mean_squared_error</span>
 </pre></div>
 </div>
@@ -291,7 +295,7 @@ entrenado al menos un algoritmo.</p></li>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2123/1756342927.py:3: DtypeWarning: Columns (6) have mixed types. Specify dtype option on import or set low_memory=False.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2196/1756342927.py:3: DtypeWarning: Columns (6) have mixed types. Specify dtype option on import or set low_memory=False.
   df_games_details = pd.read_csv(zf.open(&#39;games_details.csv&#39;))
 </pre></div>
 </div>
@@ -3557,6 +3561,397 @@ dtype: int64
   </tbody>
 </table>
 </div></div></div>
+</div>
+<p>Selecciono solo la temporada 2022</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_games_2022</span> <span class="o">=</span> <span class="n">df_games</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_games</span><span class="p">[</span><span class="s1">&#39;SEASON&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2022</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vemos cantidad de filas y columnas del nuevo dataframe seleccionando 2022</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_games_2022</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(542, 20)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Guardamos las columnas en una variable llamada variables</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variables</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_games_2022</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;GAME_DATE_EST&#39;, &#39;GAME_ID&#39;, &#39;HOME_TEAM_ID&#39;, &#39;VISITOR_TEAM_ID&#39;, &#39;SEASON&#39;, &#39;TEAM_ID_home&#39;, &#39;PTS_home&#39;, &#39;FG_PCT_home&#39;, &#39;FT_PCT_home&#39;, &#39;FG3_PCT_home&#39;, &#39;AST_home&#39;, &#39;REB_home&#39;, &#39;TEAM_ID_away&#39;, &#39;PTS_away&#39;, &#39;FG_PCT_away&#39;, &#39;FT_PCT_away&#39;, &#39;FG3_PCT_away&#39;, &#39;AST_away&#39;, &#39;REB_away&#39;, &#39;HOME_TEAM_WINS&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Guardamos las variables numericas en una lista y luego creamos otra lista con las mismas variables pero añadiendo norm para saber que están normalizadas</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variables_elegidas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PTS_home&#39;</span><span class="p">,</span> <span class="s1">&#39;FG_PCT_home&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_home&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_home&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_home&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_home&#39;</span><span class="p">,</span> <span class="s1">&#39;PTS_away&#39;</span><span class="p">,</span> <span class="s1">&#39;FG_PCT_away&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_away&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_away&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_away&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_away&#39;</span><span class="p">]</span>
+<span class="n">variables_elegidas_norm</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PTS_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG_PCT_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;PTS_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG_PCT_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_away_norm&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Añadir al dataframe “X” las variables que hemos elegido para entrenar y al “y” el target, esto dirá si gana el equipo local 0 y si gana el visitante 1</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">df_games_2022</span><span class="p">[</span><span class="n">variables_elegidas</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df_games_2022</span><span class="p">[</span><span class="s2">&quot;HOME_TEAM_WINS&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Muestra el conjunto de datos de la temporada 2022 y el target</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PTS_home</th>
+      <th>FG_PCT_home</th>
+      <th>FT_PCT_home</th>
+      <th>FG3_PCT_home</th>
+      <th>AST_home</th>
+      <th>REB_home</th>
+      <th>PTS_away</th>
+      <th>FG_PCT_away</th>
+      <th>FT_PCT_away</th>
+      <th>FG3_PCT_away</th>
+      <th>AST_away</th>
+      <th>REB_away</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>126.0</td>
+      <td>0.484</td>
+      <td>0.926</td>
+      <td>0.382</td>
+      <td>25.0</td>
+      <td>46.0</td>
+      <td>117.0</td>
+      <td>0.478</td>
+      <td>0.815</td>
+      <td>0.321</td>
+      <td>23.0</td>
+      <td>44.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>120.0</td>
+      <td>0.488</td>
+      <td>0.952</td>
+      <td>0.457</td>
+      <td>16.0</td>
+      <td>40.0</td>
+      <td>112.0</td>
+      <td>0.561</td>
+      <td>0.765</td>
+      <td>0.333</td>
+      <td>20.0</td>
+      <td>37.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>114.0</td>
+      <td>0.482</td>
+      <td>0.786</td>
+      <td>0.313</td>
+      <td>22.0</td>
+      <td>37.0</td>
+      <td>106.0</td>
+      <td>0.470</td>
+      <td>0.682</td>
+      <td>0.433</td>
+      <td>20.0</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>113.0</td>
+      <td>0.441</td>
+      <td>0.909</td>
+      <td>0.297</td>
+      <td>27.0</td>
+      <td>49.0</td>
+      <td>93.0</td>
+      <td>0.392</td>
+      <td>0.735</td>
+      <td>0.261</td>
+      <td>15.0</td>
+      <td>46.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>108.0</td>
+      <td>0.429</td>
+      <td>1.000</td>
+      <td>0.378</td>
+      <td>22.0</td>
+      <td>47.0</td>
+      <td>110.0</td>
+      <td>0.500</td>
+      <td>0.773</td>
+      <td>0.292</td>
+      <td>20.0</td>
+      <td>47.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    1
+1    1
+2    1
+3    1
+4    0
+Name: HOME_TEAM_WINS, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hacemos el split de train y de test, 0.7 y 0.3 respectivamente</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> 
+    <span class="n">y</span><span class="p">,</span> 
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Normalizamos las variables elegidas en train</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">prep</span><span class="o">.</span><span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">variables_elegidas</span><span class="p">])</span>
+
+<span class="c1"># Creamos columnas con datos normalizados</span>
+<span class="n">X_train</span><span class="p">[</span><span class="n">variables_elegidas_norm</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span>
+<span class="c1"># Borramos las variables no normalizadas</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span> <span class="o">=</span> <span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">variables_elegidas</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PTS_home_norm</th>
+      <th>FG_PCT_home_norm</th>
+      <th>FT_PCT_home_norm</th>
+      <th>FG3_PCT_home_norm</th>
+      <th>AST_home_norm</th>
+      <th>REB_home_norm</th>
+      <th>PTS_away_norm</th>
+      <th>FG_PCT_away_norm</th>
+      <th>FT_PCT_away_norm</th>
+      <th>FG3_PCT_away_norm</th>
+      <th>AST_away_norm</th>
+      <th>REB_away_norm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>440</th>
+      <td>0.205479</td>
+      <td>0.390173</td>
+      <td>0.400</td>
+      <td>0.367010</td>
+      <td>0.08</td>
+      <td>0.441860</td>
+      <td>0.476190</td>
+      <td>0.431611</td>
+      <td>0.881429</td>
+      <td>0.457471</td>
+      <td>0.629630</td>
+      <td>0.684211</td>
+    </tr>
+    <tr>
+      <th>247</th>
+      <td>0.150685</td>
+      <td>0.095376</td>
+      <td>0.688</td>
+      <td>0.228866</td>
+      <td>0.04</td>
+      <td>0.581395</td>
+      <td>0.269841</td>
+      <td>0.249240</td>
+      <td>0.682857</td>
+      <td>0.310345</td>
+      <td>0.481481</td>
+      <td>0.578947</td>
+    </tr>
+    <tr>
+      <th>434</th>
+      <td>0.328767</td>
+      <td>0.410405</td>
+      <td>0.600</td>
+      <td>0.162887</td>
+      <td>0.48</td>
+      <td>0.372093</td>
+      <td>0.380952</td>
+      <td>0.364742</td>
+      <td>0.735714</td>
+      <td>0.487356</td>
+      <td>0.259259</td>
+      <td>0.763158</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>0.753425</td>
+      <td>0.580925</td>
+      <td>0.666</td>
+      <td>0.703093</td>
+      <td>0.56</td>
+      <td>0.511628</td>
+      <td>0.666667</td>
+      <td>0.547112</td>
+      <td>0.841429</td>
+      <td>0.425287</td>
+      <td>0.666667</td>
+      <td>0.421053</td>
+    </tr>
+    <tr>
+      <th>234</th>
+      <td>0.643836</td>
+      <td>0.861272</td>
+      <td>0.466</td>
+      <td>0.758763</td>
+      <td>0.76</td>
+      <td>0.488372</td>
+      <td>0.523810</td>
+      <td>0.346505</td>
+      <td>0.354286</td>
+      <td>0.381609</td>
+      <td>0.592593</td>
+      <td>0.552632</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Normalizamos test</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">variables_elegidas</span><span class="p">])</span>
+
+<span class="c1"># Creamos columnas con datos normalizados</span>
+<span class="n">X_test</span><span class="p">[</span><span class="n">variables_elegidas_norm</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span>
+<span class="c1"># Borramos las variables no normalizadas</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span> <span class="o">=</span> <span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">variables_elegidas</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vemos cuales son las mejores 6 variables correlacionadas con y, también la correlación de todas</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selector</span> <span class="o">=</span> <span class="n">SelectKBest</span><span class="p">(</span><span class="n">chi2</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+
+<span class="n">X_select</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span>
+<span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">feature_names_in_</span><span class="p">,</span> <span class="n">selector</span><span class="o">.</span><span class="n">scores_</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Variable </span><span class="si">%s</span><span class="s1">: </span><span class="si">%.4f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;PTS_home_norm&#39; &#39;FG_PCT_home_norm&#39; &#39;AST_home_norm&#39; &#39;PTS_away_norm&#39;
+ &#39;FG_PCT_away_norm&#39; &#39;FG3_PCT_away_norm&#39;]
+Variable PTS_home_norm: 4.3868
+Variable FG_PCT_home_norm: 3.7384
+Variable FT_PCT_home_norm: 0.3319
+Variable FG3_PCT_home_norm: 3.0046
+Variable AST_home_norm: 3.0950
+Variable REB_home_norm: 0.5436
+Variable PTS_away_norm: 5.7462
+Variable FG_PCT_away_norm: 3.8130
+Variable FT_PCT_away_norm: 0.1706
+Variable FG3_PCT_away_norm: 4.5008
+Variable AST_away_norm: 2.6714
+Variable REB_away_norm: 1.6384
+</pre></div>
+</div>
+</div>
+</div>
+<p>APLICAMOS EL ENTRENAMIENTO DE MODELOS</p>
+<p>Empezamos usando regresión logistíca</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creamos el objeto del modelo con parámetros por defecto, fijando la semilla para evitar aleatoriedad</span>
+<span class="n">logreg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Entrenamos con el conjunto de train y su target</span>
+<span class="n">logreg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy en train: &#39;</span><span class="p">,</span> <span class="n">logreg</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy en test: &#39;</span><span class="p">,</span> <span class="n">logreg</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy en train:  0.9287598944591029
+Accuracy en test:  0.9141104294478528
+</pre></div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
