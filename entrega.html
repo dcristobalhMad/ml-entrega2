@@ -273,21 +273,30 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<p>Carga de los dataframes</p>
+<p>Ejecutamos un script para descargar los csv de kaggle</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zf</span> <span class="o">=</span> <span class="n">zp</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="s1">&#39;dataframes/nba.zip&#39;</span><span class="p">)</span>
-<span class="n">df_games</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;games.csv&#39;</span><span class="p">))</span>
-<span class="n">df_games_details</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;games_details.csv&#39;</span><span class="p">))</span>
-<span class="n">df_players</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;players.csv&#39;</span><span class="p">))</span>
-<span class="n">df_ranking</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;ranking.csv&#39;</span><span class="p">))</span>
-<span class="n">df_teams</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;teams.csv&#39;</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">run</span> -i download_df.py
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2142/1756342927.py:3: DtypeWarning: Columns (6) have mixed types. Specify dtype option on import or set low_memory=False.
-  df_games_details = pd.read_csv(zf.open(&#39;games_details.csv&#39;))
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Autenticando con la API de kaggle...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Descargado el dataframe en la carpeta dataframes
+</pre></div>
+</div>
+</div>
+</div>
+<p>Carga de los dataframes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_games</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;dataframes/games.csv&#39;</span><span class="p">)</span>
+<span class="n">df_games_details</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;dataframes/games_details.csv&#39;</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df_players</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;dataframes/players.csv&#39;</span><span class="p">)</span>
+<span class="n">df_ranking</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;dataframes/ranking.csv&#39;</span><span class="p">)</span>
+<span class="n">df_teams</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;dataframes/teams.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2316,7 +2325,7 @@ dtype: int64
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: &gt;
 </pre></div>
 </div>
-<img alt="_images/entrega_18_1.png" src="_images/entrega_18_1.png" />
+<img alt="_images/entrega_20_1.png" src="_images/entrega_20_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -3346,8 +3355,8 @@ HOME_TEAM_WINS [1 0]
 <p>Guardamos las variables numericas en una lista y luego creamos otra lista con las mismas variables pero añadiendo norm para saber que están normalizadas</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variables_elegidas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PTS_home&#39;</span><span class="p">,</span> <span class="s1">&#39;FG_PCT_home&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_home&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_home&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_home&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_home&#39;</span><span class="p">,</span> <span class="s1">&#39;PTS_away&#39;</span><span class="p">,</span> <span class="s1">&#39;FG_PCT_away&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_away&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_away&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_away&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_away&#39;</span><span class="p">]</span>
-<span class="n">variables_elegidas_norm</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PTS_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG_PCT_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;PTS_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG_PCT_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_away_norm&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variables_elegidas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;FG_PCT_home&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_home&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_home&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_home&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_home&#39;</span><span class="p">,</span> <span class="s1">&#39;FG_PCT_away&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_away&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_away&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_away&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_away&#39;</span><span class="p">]</span>
+<span class="n">variables_elegidas_norm</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;FG_PCT_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_home_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG_PCT_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_away_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_away_norm&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -3388,13 +3397,11 @@ HOME_TEAM_WINS [1 0]
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>PTS_home</th>
       <th>FG_PCT_home</th>
       <th>FT_PCT_home</th>
       <th>FG3_PCT_home</th>
       <th>AST_home</th>
       <th>REB_home</th>
-      <th>PTS_away</th>
       <th>FG_PCT_away</th>
       <th>FT_PCT_away</th>
       <th>FG3_PCT_away</th>
@@ -3405,13 +3412,11 @@ HOME_TEAM_WINS [1 0]
   <tbody>
     <tr>
       <th>0</th>
-      <td>126.0</td>
       <td>0.484</td>
       <td>0.926</td>
       <td>0.382</td>
       <td>25.0</td>
       <td>46.0</td>
-      <td>117.0</td>
       <td>0.478</td>
       <td>0.815</td>
       <td>0.321</td>
@@ -3420,13 +3425,11 @@ HOME_TEAM_WINS [1 0]
     </tr>
     <tr>
       <th>1</th>
-      <td>120.0</td>
       <td>0.488</td>
       <td>0.952</td>
       <td>0.457</td>
       <td>16.0</td>
       <td>40.0</td>
-      <td>112.0</td>
       <td>0.561</td>
       <td>0.765</td>
       <td>0.333</td>
@@ -3435,13 +3438,11 @@ HOME_TEAM_WINS [1 0]
     </tr>
     <tr>
       <th>2</th>
-      <td>114.0</td>
       <td>0.482</td>
       <td>0.786</td>
       <td>0.313</td>
       <td>22.0</td>
       <td>37.0</td>
-      <td>106.0</td>
       <td>0.470</td>
       <td>0.682</td>
       <td>0.433</td>
@@ -3450,13 +3451,11 @@ HOME_TEAM_WINS [1 0]
     </tr>
     <tr>
       <th>3</th>
-      <td>113.0</td>
       <td>0.441</td>
       <td>0.909</td>
       <td>0.297</td>
       <td>27.0</td>
       <td>49.0</td>
-      <td>93.0</td>
       <td>0.392</td>
       <td>0.735</td>
       <td>0.261</td>
@@ -3465,13 +3464,11 @@ HOME_TEAM_WINS [1 0]
     </tr>
     <tr>
       <th>4</th>
-      <td>108.0</td>
       <td>0.429</td>
       <td>1.000</td>
       <td>0.378</td>
       <td>22.0</td>
       <td>47.0</td>
-      <td>110.0</td>
       <td>0.500</td>
       <td>0.773</td>
       <td>0.292</td>
@@ -3540,13 +3537,11 @@ Name: HOME_TEAM_WINS, dtype: int64
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>PTS_home_norm</th>
       <th>FG_PCT_home_norm</th>
       <th>FT_PCT_home_norm</th>
       <th>FG3_PCT_home_norm</th>
       <th>AST_home_norm</th>
       <th>REB_home_norm</th>
-      <th>PTS_away_norm</th>
       <th>FG_PCT_away_norm</th>
       <th>FT_PCT_away_norm</th>
       <th>FG3_PCT_away_norm</th>
@@ -3557,13 +3552,11 @@ Name: HOME_TEAM_WINS, dtype: int64
   <tbody>
     <tr>
       <th>440</th>
-      <td>0.205479</td>
       <td>0.390173</td>
       <td>0.400</td>
       <td>0.367010</td>
       <td>0.08</td>
       <td>0.441860</td>
-      <td>0.476190</td>
       <td>0.431611</td>
       <td>0.881429</td>
       <td>0.457471</td>
@@ -3572,13 +3565,11 @@ Name: HOME_TEAM_WINS, dtype: int64
     </tr>
     <tr>
       <th>247</th>
-      <td>0.150685</td>
       <td>0.095376</td>
       <td>0.688</td>
       <td>0.228866</td>
       <td>0.04</td>
       <td>0.581395</td>
-      <td>0.269841</td>
       <td>0.249240</td>
       <td>0.682857</td>
       <td>0.310345</td>
@@ -3587,13 +3578,11 @@ Name: HOME_TEAM_WINS, dtype: int64
     </tr>
     <tr>
       <th>434</th>
-      <td>0.328767</td>
       <td>0.410405</td>
       <td>0.600</td>
       <td>0.162887</td>
       <td>0.48</td>
       <td>0.372093</td>
-      <td>0.380952</td>
       <td>0.364742</td>
       <td>0.735714</td>
       <td>0.487356</td>
@@ -3602,13 +3591,11 @@ Name: HOME_TEAM_WINS, dtype: int64
     </tr>
     <tr>
       <th>57</th>
-      <td>0.753425</td>
       <td>0.580925</td>
       <td>0.666</td>
       <td>0.703093</td>
       <td>0.56</td>
       <td>0.511628</td>
-      <td>0.666667</td>
       <td>0.547112</td>
       <td>0.841429</td>
       <td>0.425287</td>
@@ -3617,13 +3604,11 @@ Name: HOME_TEAM_WINS, dtype: int64
     </tr>
     <tr>
       <th>234</th>
-      <td>0.643836</td>
       <td>0.861272</td>
       <td>0.466</td>
       <td>0.758763</td>
       <td>0.76</td>
       <td>0.488372</td>
-      <td>0.523810</td>
       <td>0.346505</td>
       <td>0.354286</td>
       <td>0.381609</td>
@@ -3660,15 +3645,13 @@ Name: HOME_TEAM_WINS, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;PTS_home_norm&#39; &#39;FG_PCT_home_norm&#39; &#39;AST_home_norm&#39; &#39;PTS_away_norm&#39;
- &#39;FG_PCT_away_norm&#39; &#39;FG3_PCT_away_norm&#39;]
-Variable PTS_home_norm: 4.3868
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;FG_PCT_home_norm&#39; &#39;FG3_PCT_home_norm&#39; &#39;AST_home_norm&#39; &#39;FG_PCT_away_norm&#39;
+ &#39;FG3_PCT_away_norm&#39; &#39;AST_away_norm&#39;]
 Variable FG_PCT_home_norm: 3.7384
 Variable FT_PCT_home_norm: 0.3319
 Variable FG3_PCT_home_norm: 3.0046
 Variable AST_home_norm: 3.0950
 Variable REB_home_norm: 0.5436
-Variable PTS_away_norm: 5.7462
 Variable FG_PCT_away_norm: 3.8130
 Variable FT_PCT_away_norm: 0.1706
 Variable FG3_PCT_away_norm: 4.5008
@@ -3693,8 +3676,8 @@ Variable REB_away_norm: 1.6384
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy en train:  0.9287598944591029
-Accuracy en test:  0.9141104294478528
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy en train:  0.8522427440633246
+Accuracy en test:  0.8159509202453987
 </pre></div>
 </div>
 </div>
@@ -3710,7 +3693,7 @@ Accuracy en test:  0.9141104294478528
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9447852760736196
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7361963190184049
 </pre></div>
 </div>
 </div>
