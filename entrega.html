@@ -268,7 +268,8 @@ title="Print to PDF"
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">import</span> <span class="nn">sklearn.preprocessing</span> <span class="k">as</span> <span class="nn">prep</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">SelectKBest</span><span class="p">,</span> <span class="n">chi2</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">mean_absolute_error</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
 </pre></div>
 </div>
 </div>
@@ -3694,6 +3695,240 @@ Accuracy en test:  0.8159509202453987
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7361963190184049
+</pre></div>
+</div>
+</div>
+</div>
+<p>Probamos el accuracy de un randomforest</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Import Random Forest Model</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+
+<span class="c1">#Create a Gaussian Classifier</span>
+<span class="n">clf</span><span class="o">=</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1">#Train the model using the training sets y_pred=clf.predict(X_test)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">y_pred</span><span class="o">=</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy:&quot;</span><span class="p">,</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.7914110429447853
+</pre></div>
+</div>
+</div>
+</div>
+<p>Probamos el arbol de decision</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create Decision Tree classifer object</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Train Decision Tree Classifer</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1">#Predict the response for test dataset</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy:&quot;</span><span class="p">,</span><span class="n">metrics</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.7300613496932515
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dibujamos el arbol de decisión con cajas y en formato texto</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">plot_tree</span><span class="p">,</span> <span class="n">export_text</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">plot_tree</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">clf</span><span class="o">.</span><span class="n">feature_names_in_</span><span class="p">,</span> <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/entrega_67_0.png" src="_images/entrega_67_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">text_representation</span> <span class="o">=</span> <span class="n">export_text</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">feature_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">feature_names_in_</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">text_representation</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>|--- FG_PCT_home_norm &lt;= 0.52
+|   |--- FG_PCT_away_norm &lt;= 0.33
+|   |   |--- FG3_PCT_away_norm &lt;= 0.36
+|   |   |   |--- AST_home_norm &lt;= 0.06
+|   |   |   |   |--- class: 0
+|   |   |   |--- AST_home_norm &gt;  0.06
+|   |   |   |   |--- class: 1
+|   |   |--- FG3_PCT_away_norm &gt;  0.36
+|   |   |   |--- FG_PCT_home_norm &lt;= 0.33
+|   |   |   |   |--- class: 0
+|   |   |   |--- FG_PCT_home_norm &gt;  0.33
+|   |   |   |   |--- FG3_PCT_home_norm &lt;= 0.32
+|   |   |   |   |   |--- class: 0
+|   |   |   |   |--- FG3_PCT_home_norm &gt;  0.32
+|   |   |   |   |   |--- REB_away_norm &lt;= 0.67
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- REB_away_norm &gt;  0.67
+|   |   |   |   |   |   |--- FG3_PCT_home_norm &lt;= 0.45
+|   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |   |--- FG3_PCT_home_norm &gt;  0.45
+|   |   |   |   |   |   |   |--- FG3_PCT_away_norm &lt;= 0.57
+|   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |--- FG3_PCT_away_norm &gt;  0.57
+|   |   |   |   |   |   |   |   |--- class: 1
+|   |--- FG_PCT_away_norm &gt;  0.33
+|   |   |--- FG_PCT_away_norm &lt;= 0.49
+|   |   |   |--- FT_PCT_home_norm &lt;= 0.65
+|   |   |   |   |--- FG3_PCT_away_norm &lt;= 0.32
+|   |   |   |   |   |--- FG_PCT_home_norm &lt;= 0.33
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- FG_PCT_home_norm &gt;  0.33
+|   |   |   |   |   |   |--- FG3_PCT_home_norm &lt;= 0.25
+|   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |--- FG3_PCT_home_norm &gt;  0.25
+|   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |--- FG3_PCT_away_norm &gt;  0.32
+|   |   |   |   |   |--- REB_away_norm &lt;= 0.54
+|   |   |   |   |   |   |--- FG3_PCT_away_norm &lt;= 0.59
+|   |   |   |   |   |   |   |--- FG_PCT_home_norm &lt;= 0.48
+|   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |--- FG_PCT_home_norm &gt;  0.48
+|   |   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |   |--- FG3_PCT_away_norm &gt;  0.59
+|   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- REB_away_norm &gt;  0.54
+|   |   |   |   |   |   |--- FT_PCT_home_norm &lt;= 0.61
+|   |   |   |   |   |   |   |--- AST_home_norm &lt;= 0.54
+|   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |--- AST_home_norm &gt;  0.54
+|   |   |   |   |   |   |   |   |--- FT_PCT_home_norm &lt;= 0.52
+|   |   |   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |   |   |   |--- FT_PCT_home_norm &gt;  0.52
+|   |   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |--- FT_PCT_home_norm &gt;  0.61
+|   |   |   |   |   |   |   |--- FG3_PCT_home_norm &lt;= 0.56
+|   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |--- FG3_PCT_home_norm &gt;  0.56
+|   |   |   |   |   |   |   |   |--- class: 1
+|   |   |   |--- FT_PCT_home_norm &gt;  0.65
+|   |   |   |   |--- FG_PCT_home_norm &lt;= 0.40
+|   |   |   |   |   |--- FT_PCT_away_norm &lt;= 0.64
+|   |   |   |   |   |   |--- AST_away_norm &lt;= 0.57
+|   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |   |--- AST_away_norm &gt;  0.57
+|   |   |   |   |   |   |   |--- FG_PCT_home_norm &lt;= 0.39
+|   |   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |   |   |--- FG_PCT_home_norm &gt;  0.39
+|   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- FT_PCT_away_norm &gt;  0.64
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |--- FG_PCT_home_norm &gt;  0.40
+|   |   |   |   |   |--- FG3_PCT_home_norm &lt;= 0.68
+|   |   |   |   |   |   |--- FT_PCT_away_norm &lt;= 0.83
+|   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |   |--- FT_PCT_away_norm &gt;  0.83
+|   |   |   |   |   |   |   |--- AST_home_norm &lt;= 0.68
+|   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |--- AST_home_norm &gt;  0.68
+|   |   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- FG3_PCT_home_norm &gt;  0.68
+|   |   |   |   |   |   |--- class: 0
+|   |   |--- FG_PCT_away_norm &gt;  0.49
+|   |   |   |--- FG3_PCT_home_norm &lt;= 0.52
+|   |   |   |   |--- FG3_PCT_away_norm &lt;= 0.19
+|   |   |   |   |   |--- AST_home_norm &lt;= 0.34
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- AST_home_norm &gt;  0.34
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |--- FG3_PCT_away_norm &gt;  0.19
+|   |   |   |   |   |--- class: 0
+|   |   |   |--- FG3_PCT_home_norm &gt;  0.52
+|   |   |   |   |--- FT_PCT_away_norm &lt;= 0.56
+|   |   |   |   |   |--- FG_PCT_home_norm &lt;= 0.32
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- FG_PCT_home_norm &gt;  0.32
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |--- FT_PCT_away_norm &gt;  0.56
+|   |   |   |   |   |--- AST_home_norm &lt;= 0.66
+|   |   |   |   |   |   |--- AST_home_norm &lt;= 0.26
+|   |   |   |   |   |   |   |--- FG_PCT_away_norm &lt;= 0.53
+|   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |--- FG_PCT_away_norm &gt;  0.53
+|   |   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |   |--- AST_home_norm &gt;  0.26
+|   |   |   |   |   |   |   |--- FG_PCT_away_norm &lt;= 0.79
+|   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |--- FG_PCT_away_norm &gt;  0.79
+|   |   |   |   |   |   |   |   |--- FG3_PCT_away_norm &lt;= 0.69
+|   |   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |   |--- FG3_PCT_away_norm &gt;  0.69
+|   |   |   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- AST_home_norm &gt;  0.66
+|   |   |   |   |   |   |--- class: 1
+|--- FG_PCT_home_norm &gt;  0.52
+|   |--- FG3_PCT_away_norm &lt;= 0.68
+|   |   |--- FT_PCT_home_norm &lt;= 0.23
+|   |   |   |--- FT_PCT_home_norm &lt;= 0.10
+|   |   |   |   |--- class: 1
+|   |   |   |--- FT_PCT_home_norm &gt;  0.10
+|   |   |   |   |--- class: 0
+|   |   |--- FT_PCT_home_norm &gt;  0.23
+|   |   |   |--- REB_away_norm &lt;= 0.70
+|   |   |   |   |--- FG3_PCT_away_norm &lt;= 0.61
+|   |   |   |   |   |--- FG3_PCT_home_norm &lt;= 0.34
+|   |   |   |   |   |   |--- FG_PCT_away_norm &lt;= 0.45
+|   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |   |--- FG_PCT_away_norm &gt;  0.45
+|   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- FG3_PCT_home_norm &gt;  0.34
+|   |   |   |   |   |   |--- REB_home_norm &lt;= 0.31
+|   |   |   |   |   |   |   |--- REB_home_norm &lt;= 0.29
+|   |   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |   |   |--- REB_home_norm &gt;  0.29
+|   |   |   |   |   |   |   |   |--- AST_home_norm &lt;= 0.52
+|   |   |   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |   |   |   |--- AST_home_norm &gt;  0.52
+|   |   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |--- REB_home_norm &gt;  0.31
+|   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |--- FG3_PCT_away_norm &gt;  0.61
+|   |   |   |   |   |--- FG3_PCT_home_norm &lt;= 0.57
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- FG3_PCT_home_norm &gt;  0.57
+|   |   |   |   |   |   |--- REB_away_norm &lt;= 0.53
+|   |   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |   |--- REB_away_norm &gt;  0.53
+|   |   |   |   |   |   |   |--- FG3_PCT_home_norm &lt;= 0.73
+|   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |--- FG3_PCT_home_norm &gt;  0.73
+|   |   |   |   |   |   |   |   |--- class: 1
+|   |   |   |--- REB_away_norm &gt;  0.70
+|   |   |   |   |--- FG_PCT_away_norm &lt;= 0.48
+|   |   |   |   |   |--- class: 1
+|   |   |   |   |--- FG_PCT_away_norm &gt;  0.48
+|   |   |   |   |   |--- class: 0
+|   |--- FG3_PCT_away_norm &gt;  0.68
+|   |   |--- REB_home_norm &lt;= 0.38
+|   |   |   |--- class: 0
+|   |   |--- REB_home_norm &gt;  0.38
+|   |   |   |--- FG_PCT_away_norm &lt;= 0.64
+|   |   |   |   |--- class: 1
+|   |   |   |--- FG_PCT_away_norm &gt;  0.64
+|   |   |   |   |--- class: 0
 </pre></div>
 </div>
 </div>
