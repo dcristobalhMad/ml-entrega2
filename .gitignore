@@ -1,3 +1,9 @@
+# Fichero con las variables de kaggle
+.env
+
+# Dataframes en local
+dataframes/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
