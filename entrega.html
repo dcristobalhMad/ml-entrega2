@@ -3712,7 +3712,7 @@ Accuracy en test:  0.8159509202453987
 <p>Probamos el accuracy de un randomforest</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Create a Gaussian Classifier</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Create a Random Forest Classifier</span>
 <span class="n">gc</span><span class="o">=</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
 <span class="c1">#Train the model using the training sets y_pred=clf.predict(X_test)</span>
@@ -3724,7 +3724,7 @@ Accuracy en test:  0.8159509202453987
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.7975460122699386
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.7791411042944786
 </pre></div>
 </div>
 </div>
@@ -3754,12 +3754,12 @@ Accuracy en test:  0.8159509202453987
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
 
-           0       0.73      0.74      0.73        61
-           1       0.84      0.83      0.84       102
+           0       0.71      0.69      0.70        61
+           1       0.82      0.83      0.83       102
 
-    accuracy                           0.80       163
-   macro avg       0.78      0.79      0.78       163
-weighted avg       0.80      0.80      0.80       163
+    accuracy                           0.78       163
+   macro avg       0.76      0.76      0.76       163
+weighted avg       0.78      0.78      0.78       163
 </pre></div>
 </div>
 </div>
@@ -4073,23 +4073,20 @@ weighted avg       0.73      0.73      0.73       163
 <p>Curva ROC</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">logreg</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-<span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-<span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">gc</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-<span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">gnb</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-<span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">knn</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">logreg</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">gc</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">gnb</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">knn</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.roc_curve.RocCurveDisplay at 0x7fc72c0cc5e0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.roc_curve.RocCurveDisplay at 0x7f5be3e9f220&gt;
 </pre></div>
 </div>
 <img alt="_images/entrega_85_1.png" src="_images/entrega_85_1.png" />
-<img alt="_images/entrega_85_2.png" src="_images/entrega_85_2.png" />
-<img alt="_images/entrega_85_3.png" src="_images/entrega_85_3.png" />
-<img alt="_images/entrega_85_4.png" src="_images/entrega_85_4.png" />
-<img alt="_images/entrega_85_5.png" src="_images/entrega_85_5.png" />
 </div>
 </div>
 <p>Vemos el reporte de clasificación de Naive Beyes</p>
@@ -4153,22 +4150,22 @@ weighted avg       0.81      0.80      0.81       163
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dummy          | score = 0.546 | time = 0.001s/0.001s
-KNN(3)         | score = 0.742 | time = 0.003s/0.006s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dummy          | score = 0.540 | time = 0.000s/0.000s
+KNN(3)         | score = 0.742 | time = 0.002s/0.006s
 RBF SVM        | score = 0.755 | time = 0.005s/0.003s
-Decision Tree  | score = 0.742 | time = 0.003s/0.001s
-Random Forest  | score = 0.773 | time = 0.019s/0.003s
+Decision Tree  | score = 0.730 | time = 0.003s/0.001s
+Random Forest  | score = 0.791 | time = 0.019s/0.003s
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Neural Net     | score = 0.816 | time = 0.166s/0.002s
-AdaBoost       | score = 0.779 | time = 0.082s/0.008s
-Naive Bayes    | score = 0.804 | time = 0.001s/0.001s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Neural Net     | score = 0.822 | time = 0.166s/0.002s
+AdaBoost       | score = 0.779 | time = 0.081s/0.008s
+Naive Bayes    | score = 0.804 | time = 0.002s/0.001s
 QDA            | score = 0.816 | time = 0.002s/0.001s
 Linear SVC     | score = 0.804 | time = 0.003s/0.001s
 Linear SVM     | score = 0.804 | time = 0.004s/0.002s
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gaussian Proc  | score = 0.798 | time = 0.978s/0.004s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gaussian Proc  | score = 0.798 | time = 1.159s/0.005s
 LogisticRegr   | score = 0.816 | time = 0.006s/0.001s
 </pre></div>
 </div>
