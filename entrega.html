@@ -3724,7 +3724,7 @@ Accuracy en test:  0.8159509202453987
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.7791411042944786
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.7975460122699386
 </pre></div>
 </div>
 </div>
@@ -3754,12 +3754,12 @@ Accuracy en test:  0.8159509202453987
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
 
-           0       0.71      0.69      0.70        61
-           1       0.82      0.83      0.83       102
+           0       0.73      0.72      0.73        61
+           1       0.83      0.84      0.84       102
 
-    accuracy                           0.78       163
-   macro avg       0.76      0.76      0.76       163
-weighted avg       0.78      0.78      0.78       163
+    accuracy                           0.80       163
+   macro avg       0.78      0.78      0.78       163
+weighted avg       0.80      0.80      0.80       163
 </pre></div>
 </div>
 </div>
@@ -4083,7 +4083,7 @@ weighted avg       0.73      0.73      0.73       163
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.roc_curve.RocCurveDisplay at 0x7f5be3e9f220&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.roc_curve.RocCurveDisplay at 0x7f0b4d1c7850&gt;
 </pre></div>
 </div>
 <img alt="_images/entrega_85_1.png" src="_images/entrega_85_1.png" />
@@ -4150,22 +4150,22 @@ weighted avg       0.81      0.80      0.81       163
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dummy          | score = 0.540 | time = 0.000s/0.000s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dummy          | score = 0.515 | time = 0.001s/0.001s
 KNN(3)         | score = 0.742 | time = 0.002s/0.006s
 RBF SVM        | score = 0.755 | time = 0.005s/0.003s
-Decision Tree  | score = 0.730 | time = 0.003s/0.001s
-Random Forest  | score = 0.791 | time = 0.019s/0.003s
+Decision Tree  | score = 0.736 | time = 0.003s/0.001s
+Random Forest  | score = 0.779 | time = 0.019s/0.003s
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Neural Net     | score = 0.822 | time = 0.166s/0.002s
-AdaBoost       | score = 0.779 | time = 0.081s/0.008s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Neural Net     | score = 0.816 | time = 0.171s/0.002s
+AdaBoost       | score = 0.779 | time = 0.080s/0.008s
 Naive Bayes    | score = 0.804 | time = 0.002s/0.001s
 QDA            | score = 0.816 | time = 0.002s/0.001s
 Linear SVC     | score = 0.804 | time = 0.003s/0.001s
 Linear SVM     | score = 0.804 | time = 0.004s/0.002s
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gaussian Proc  | score = 0.798 | time = 1.159s/0.005s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gaussian Proc  | score = 0.798 | time = 0.893s/0.005s
 LogisticRegr   | score = 0.816 | time = 0.006s/0.001s
 </pre></div>
 </div>
@@ -4210,6 +4210,822 @@ LogisticRegr   | score = 0.816 | time = 0.006s/0.001s
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/entrega_96_0.png" src="_images/entrega_96_0.png" />
+</div>
+</div>
+<p>Vemos si los locales o los visitantes tienen más numeros de victorias, en teoría deberían de ser los locales</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">victorias_local</span> <span class="o">=</span> <span class="n">df_games</span><span class="p">[</span><span class="s1">&#39;HOME_TEAM_WINS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">victorias_visitante</span> <span class="o">=</span> <span class="n">df_games</span><span class="p">[</span><span class="s1">&#39;HOME_TEAM_WINS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">ti</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+<span class="n">hor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ti</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span><span class="n">victorias_local</span><span class="p">,</span><span class="n">width</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#6CC132&#39;</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Partidos de local&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">hor</span> <span class="o">+</span> <span class="mf">0.75</span><span class="p">,</span><span class="n">victorias_visitante</span><span class="p">,</span><span class="n">width</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#AB32C1&#39;</span><span class="p">,</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Partidos de visitante&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Numero de victorias&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comparación de victorias como local y como visitante desde 1940&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f0b3a4a5870&gt;
+</pre></div>
+</div>
+<img alt="_images/entrega_98_1.png" src="_images/entrega_98_1.png" />
+</div>
+</div>
+<p>Vamos a ver los máximos anotadores de todos los tiempos, para ello tenemos que limpiar el df game_details</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">df_games_details</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="c1"># Borramos estas 3 columnas que no aportan nada</span>
+<span class="n">df_games_details</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;NICKNAME&#39;</span><span class="p">,</span> <span class="s1">&#39;START_POSITION&#39;</span><span class="p">,</span> <span class="s1">&#39;COMMENT&#39;</span><span class="p">,</span> <span class="s1">&#39;PLUS_MINUS&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_games_details</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="c1"># Borramos los nulls de las demás filas, los nulls de las filas están en distintas posiciones, probar con media</span>
+<span class="n">df_games_details</span> <span class="o">=</span> <span class="n">df_games_details</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PTS&#39;</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_games_details</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GAME_ID                   0
+TEAM_ID                   0
+TEAM_ABBREVIATION         0
+TEAM_CITY                 0
+PLAYER_ID                 0
+PLAYER_NAME               0
+NICKNAME             615591
+START_POSITION       412863
+COMMENT              558939
+MIN                  109690
+FGM                  109690
+FGA                  109690
+FG_PCT               109690
+FG3M                 109690
+FG3A                 109690
+FG3_PCT              109690
+FTM                  109690
+FTA                  109690
+FT_PCT               109690
+OREB                 109690
+DREB                 109690
+REB                  109690
+AST                  109690
+STL                  109690
+BLK                  109690
+TO                   109690
+PF                   109690
+PTS                  109690
+PLUS_MINUS           133351
+dtype: int64
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(668628, 29)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(558938, 29)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Jugadores con más puntos desde 1940</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top_player</span> <span class="o">=</span> <span class="n">df_games_details</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;PLAYER_NAME&#39;</span><span class="p">)[</span><span class="s1">&#39;PTS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span> <span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Puntos&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Nombre Jugador&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top 20 Jugadores con más puntos en la NBA desde 1940&#39;</span><span class="p">,</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">24</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">top_player</span><span class="p">[</span><span class="s1">&#39;PTS&#39;</span><span class="p">],</span><span class="n">y</span> <span class="o">=</span> <span class="n">top_player</span><span class="p">[</span><span class="s1">&#39;PLAYER_NAME&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/entrega_102_0.png" src="_images/entrega_102_0.png" />
+</div>
+</div>
+<p>Jugadores con más rebotes desde 1940</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top_player_reb</span> <span class="o">=</span> <span class="n">df_games_details</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;PLAYER_NAME&#39;</span><span class="p">)[</span><span class="s1">&#39;REB&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span> <span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;REBOTES&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;NOMBRE JUGADOR&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top 20 Jugadores con más rebotes&#39;</span><span class="p">,</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">24</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">top_player_reb</span><span class="p">[</span><span class="s1">&#39;REB&#39;</span><span class="p">],</span><span class="n">y</span> <span class="o">=</span> <span class="n">top_player_reb</span><span class="p">[</span><span class="s1">&#39;PLAYER_NAME&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/entrega_104_0.png" src="_images/entrega_104_0.png" />
+</div>
+</div>
+<p>Jugadores con más asistencias desde 1940</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top_player_as</span> <span class="o">=</span> <span class="n">df_games_details</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;PLAYER_NAME&#39;</span><span class="p">)[</span><span class="s1">&#39;AST&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span> <span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;ASISTENCIAS&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;NOMBRE JUGADOR&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top 20 Jugadores con más asistencias&#39;</span><span class="p">,</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">24</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">top_player_as</span><span class="p">[</span><span class="s1">&#39;AST&#39;</span><span class="p">],</span><span class="n">y</span> <span class="o">=</span> <span class="n">top_player_as</span><span class="p">[</span><span class="s1">&#39;PLAYER_NAME&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;turquoise&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/entrega_106_0.png" src="_images/entrega_106_0.png" />
+</div>
+</div>
+<p>Top 20 de jugadores con más tapones desde 1940 en la NBA</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top_player_bl</span> <span class="o">=</span> <span class="n">df_games_details</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;PLAYER_NAME&#39;</span><span class="p">)[</span><span class="s1">&#39;BLK&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span> <span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;TAPONES&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;NOMBRE JUGADOR&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top 20 Jugadores con más tapones&#39;</span><span class="p">,</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">24</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">top_player_bl</span><span class="p">[</span><span class="s1">&#39;BLK&#39;</span><span class="p">],</span><span class="n">y</span> <span class="o">=</span> <span class="n">top_player_bl</span><span class="p">[</span><span class="s1">&#39;PLAYER_NAME&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/entrega_108_0.png" src="_images/entrega_108_0.png" />
+</div>
+</div>
+<p>Vemos las estadisticas de Lebron James</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Seleccionamos a Lebron dentro del dataframe de details</span>
+<span class="n">lebronjames</span> <span class="o">=</span> <span class="n">df_games_details</span><span class="p">[</span><span class="n">df_games_details</span><span class="p">[</span><span class="s2">&quot;PLAYER_NAME&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;LeBron James&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Borramos variables innecesarias para el análisis</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lebronjames</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;TEAM_ID&quot;</span><span class="p">,</span> <span class="s2">&quot;TEAM_CITY&quot;</span><span class="p">,</span> <span class="s2">&quot;PLAYER_ID&quot;</span><span class="p">,</span> <span class="s2">&quot;PLAYER_NAME&quot;</span><span class="p">,</span> <span class="s2">&quot;COMMENT&quot;</span><span class="p">,</span> <span class="s2">&quot;NICKNAME&quot;</span><span class="p">,</span> <span class="s2">&quot;START_POSITION&quot;</span><span class="p">,</span> <span class="s2">&quot;PLUS_MINUS&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">lebronjames</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GAME_ID</th>
+      <th>TEAM_ABBREVIATION</th>
+      <th>MIN</th>
+      <th>FGM</th>
+      <th>FGA</th>
+      <th>FG_PCT</th>
+      <th>FG3M</th>
+      <th>FG3A</th>
+      <th>FG3_PCT</th>
+      <th>FTM</th>
+      <th>...</th>
+      <th>FT_PCT</th>
+      <th>OREB</th>
+      <th>DREB</th>
+      <th>REB</th>
+      <th>AST</th>
+      <th>STL</th>
+      <th>BLK</th>
+      <th>TO</th>
+      <th>PF</th>
+      <th>PTS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>276</th>
+      <td>22200475</td>
+      <td>LAL</td>
+      <td>34:00</td>
+      <td>11.0</td>
+      <td>21.0</td>
+      <td>0.524</td>
+      <td>0.0</td>
+      <td>4.0</td>
+      <td>0.000</td>
+      <td>9.0</td>
+      <td>...</td>
+      <td>0.90</td>
+      <td>0.0</td>
+      <td>6.0</td>
+      <td>6.0</td>
+      <td>11.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>31.0</td>
+    </tr>
+    <tr>
+      <th>837</th>
+      <td>22200451</td>
+      <td>LAL</td>
+      <td>36:33</td>
+      <td>13.0</td>
+      <td>24.0</td>
+      <td>0.542</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>0.250</td>
+      <td>6.0</td>
+      <td>...</td>
+      <td>0.75</td>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>9.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>33.0</td>
+    </tr>
+    <tr>
+      <th>1259</th>
+      <td>22200437</td>
+      <td>LAL</td>
+      <td>35:56</td>
+      <td>13.0</td>
+      <td>21.0</td>
+      <td>0.619</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>0.250</td>
+      <td>3.0</td>
+      <td>...</td>
+      <td>0.75</td>
+      <td>1.0</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>4.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>30.0</td>
+    </tr>
+    <tr>
+      <th>1738</th>
+      <td>22200413</td>
+      <td>LAL</td>
+      <td>42:47</td>
+      <td>14.0</td>
+      <td>25.0</td>
+      <td>0.560</td>
+      <td>3.0</td>
+      <td>11.0</td>
+      <td>0.273</td>
+      <td>2.0</td>
+      <td>...</td>
+      <td>0.50</td>
+      <td>0.0</td>
+      <td>9.0</td>
+      <td>9.0</td>
+      <td>9.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>33.0</td>
+    </tr>
+    <tr>
+      <th>1953</th>
+      <td>22200396</td>
+      <td>LAL</td>
+      <td>36:52</td>
+      <td>14.0</td>
+      <td>24.0</td>
+      <td>0.583</td>
+      <td>2.0</td>
+      <td>6.0</td>
+      <td>0.333</td>
+      <td>5.0</td>
+      <td>...</td>
+      <td>1.00</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>35.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 21 columns</p>
+</div></div></div>
+</div>
+<p>Creamos un dataframe con los partidos y las fechas de los partidos totales</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_games_date</span> <span class="o">=</span> <span class="n">df_games</span><span class="p">[[</span><span class="s2">&quot;GAME_DATE_EST&quot;</span><span class="p">,</span> <span class="s2">&quot;GAME_ID&quot;</span><span class="p">,</span> <span class="s2">&quot;SEASON&quot;</span><span class="p">]]</span>
+<span class="n">df_games_date</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GAME_DATE_EST</th>
+      <th>GAME_ID</th>
+      <th>SEASON</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2022-12-22</td>
+      <td>22200477</td>
+      <td>2022</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2022-12-22</td>
+      <td>22200478</td>
+      <td>2022</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2022-12-21</td>
+      <td>22200466</td>
+      <td>2022</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2022-12-21</td>
+      <td>22200467</td>
+      <td>2022</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2022-12-21</td>
+      <td>22200468</td>
+      <td>2022</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Juntamos el dataframe de las stats de lebron junto con las fechas de los partidos y el año de la temporada</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stats_totales_lebron</span> <span class="o">=</span> <span class="n">lebronjames</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_games_date</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;GAME_ID&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">stats_totales_lebron</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GAME_ID</th>
+      <th>TEAM_ABBREVIATION</th>
+      <th>MIN</th>
+      <th>FGM</th>
+      <th>FGA</th>
+      <th>FG_PCT</th>
+      <th>FG3M</th>
+      <th>FG3A</th>
+      <th>FG3_PCT</th>
+      <th>FTM</th>
+      <th>...</th>
+      <th>DREB</th>
+      <th>REB</th>
+      <th>AST</th>
+      <th>STL</th>
+      <th>BLK</th>
+      <th>TO</th>
+      <th>PF</th>
+      <th>PTS</th>
+      <th>GAME_DATE_EST</th>
+      <th>SEASON</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>22200475</td>
+      <td>LAL</td>
+      <td>34:00</td>
+      <td>11.0</td>
+      <td>21.0</td>
+      <td>0.524</td>
+      <td>0.0</td>
+      <td>4.0</td>
+      <td>0.000</td>
+      <td>9.0</td>
+      <td>...</td>
+      <td>6.0</td>
+      <td>6.0</td>
+      <td>11.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>31.0</td>
+      <td>2022-12-21</td>
+      <td>2022.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>22200451</td>
+      <td>LAL</td>
+      <td>36:33</td>
+      <td>13.0</td>
+      <td>24.0</td>
+      <td>0.542</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>0.250</td>
+      <td>6.0</td>
+      <td>...</td>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>9.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>33.0</td>
+      <td>2022-12-18</td>
+      <td>2022.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>22200437</td>
+      <td>LAL</td>
+      <td>35:56</td>
+      <td>13.0</td>
+      <td>21.0</td>
+      <td>0.619</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>0.250</td>
+      <td>3.0</td>
+      <td>...</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>4.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>30.0</td>
+      <td>2022-12-16</td>
+      <td>2022.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>22200413</td>
+      <td>LAL</td>
+      <td>42:47</td>
+      <td>14.0</td>
+      <td>25.0</td>
+      <td>0.560</td>
+      <td>3.0</td>
+      <td>11.0</td>
+      <td>0.273</td>
+      <td>2.0</td>
+      <td>...</td>
+      <td>9.0</td>
+      <td>9.0</td>
+      <td>9.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>33.0</td>
+      <td>2022-12-13</td>
+      <td>2022.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>22200396</td>
+      <td>LAL</td>
+      <td>36:52</td>
+      <td>14.0</td>
+      <td>24.0</td>
+      <td>0.583</td>
+      <td>2.0</td>
+      <td>6.0</td>
+      <td>0.333</td>
+      <td>5.0</td>
+      <td>...</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>35.0</td>
+      <td>2022-12-11</td>
+      <td>2022.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 23 columns</p>
+</div></div></div>
+</div>
+<p>Creamos un dataframe con los puntos ordenados por temporada</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stats_temporada</span> <span class="o">=</span> <span class="n">stats_totales_lebron</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;SEASON&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">stats_totales_lebron</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;SEASON&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">stats_temporada</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AST</th>
+      <th>BLK</th>
+      <th>DREB</th>
+      <th>FG3A</th>
+      <th>FG3M</th>
+      <th>FG3_PCT</th>
+      <th>FGA</th>
+      <th>FGM</th>
+      <th>FG_PCT</th>
+      <th>FTA</th>
+      <th>...</th>
+      <th>GAME_DATE_EST</th>
+      <th>GAME_ID</th>
+      <th>MIN</th>
+      <th>OREB</th>
+      <th>PF</th>
+      <th>PTS</th>
+      <th>REB</th>
+      <th>STL</th>
+      <th>TEAM_ABBREVIATION</th>
+      <th>TO</th>
+    </tr>
+    <tr>
+      <th>SEASON</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2003.0</th>
+      <td>5.808511</td>
+      <td>0.744681</td>
+      <td>3.978723</td>
+      <td>2.340426</td>
+      <td>0.659574</td>
+      <td>0.227319</td>
+      <td>19.489362</td>
+      <td>8.000000</td>
+      <td>0.402277</td>
+      <td>6.382979</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>2.030084e+07</td>
+      <td>NaN</td>
+      <td>1.085106</td>
+      <td>1.936170</td>
+      <td>21.425532</td>
+      <td>5.063830</td>
+      <td>1.723404</td>
+      <td>NaN</td>
+      <td>3.148936</td>
+    </tr>
+    <tr>
+      <th>2004.0</th>
+      <td>7.134146</td>
+      <td>0.634146</td>
+      <td>5.853659</td>
+      <td>3.756098</td>
+      <td>1.317073</td>
+      <td>0.298646</td>
+      <td>20.792683</td>
+      <td>9.804878</td>
+      <td>0.471817</td>
+      <td>7.926829</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>2.015671e+07</td>
+      <td>NaN</td>
+      <td>1.365854</td>
+      <td>1.817073</td>
+      <td>26.853659</td>
+      <td>7.219512</td>
+      <td>2.195122</td>
+      <td>NaN</td>
+      <td>3.243902</td>
+    </tr>
+    <tr>
+      <th>2005.0</th>
+      <td>6.319588</td>
+      <td>0.804124</td>
+      <td>5.969072</td>
+      <td>4.731959</td>
+      <td>1.577320</td>
+      <td>0.283010</td>
+      <td>22.752577</td>
+      <td>10.886598</td>
+      <td>0.478216</td>
+      <td>10.103093</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>2.266546e+07</td>
+      <td>NaN</td>
+      <td>1.020619</td>
+      <td>2.453608</td>
+      <td>30.804124</td>
+      <td>6.989691</td>
+      <td>1.587629</td>
+      <td>NaN</td>
+      <td>3.608247</td>
+    </tr>
+    <tr>
+      <th>2006.0</th>
+      <td>6.349515</td>
+      <td>0.640777</td>
+      <td>5.815534</td>
+      <td>3.834951</td>
+      <td>1.184466</td>
+      <td>0.267350</td>
+      <td>20.213592</td>
+      <td>9.388350</td>
+      <td>0.460796</td>
+      <td>8.912621</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>2.399857e+07</td>
+      <td>NaN</td>
+      <td>1.077670</td>
+      <td>2.106796</td>
+      <td>26.271845</td>
+      <td>6.893204</td>
+      <td>1.601942</td>
+      <td>NaN</td>
+      <td>3.213592</td>
+    </tr>
+    <tr>
+      <th>2007.0</th>
+      <td>7.074468</td>
+      <td>1.074468</td>
+      <td>5.957447</td>
+      <td>4.627660</td>
+      <td>1.393617</td>
+      <td>0.250340</td>
+      <td>21.021277</td>
+      <td>9.946809</td>
+      <td>0.469266</td>
+      <td>10.361702</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>2.282818e+07</td>
+      <td>NaN</td>
+      <td>1.627660</td>
+      <td>2.191489</td>
+      <td>28.702128</td>
+      <td>7.585106</td>
+      <td>1.797872</td>
+      <td>NaN</td>
+      <td>3.414894</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 22 columns</p>
+</div></div></div>
+</div>
+<p>Creamos un plot para visualizar el progreso en puntos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Puntos de Lebron James por temporada&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">stats_temporada</span><span class="p">[</span><span class="s2">&quot;PTS&quot;</span><span class="p">],</span> <span class="n">y</span> <span class="o">=</span> <span class="n">stats_temporada</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="nb">str</span><span class="p">),</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;pastel&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: xlabel=&#39;PTS&#39;, ylabel=&#39;SEASON&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/entrega_120_1.png" src="_images/entrega_120_1.png" />
+</div>
+</div>
+<p>Analizamos la evolución media del tanto por ciento de acierto de tiros por temporada de LJ</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Tanto por ciento de acierto de tiros de campo&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">stats_temporada</span><span class="p">[</span><span class="s2">&quot;FG_PCT&quot;</span><span class="p">],</span> <span class="n">y</span> <span class="o">=</span> <span class="n">stats_temporada</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="nb">str</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: xlabel=&#39;FG_PCT&#39;, ylabel=&#39;SEASON&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/entrega_122_1.png" src="_images/entrega_122_1.png" />
+</div>
+</div>
+<p>Vemos la media de asistencias por partido y temporada de LJ</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">stats_temporada</span><span class="p">[</span><span class="s2">&quot;AST&quot;</span><span class="p">],</span> <span class="n">y</span> <span class="o">=</span> <span class="n">stats_temporada</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="nb">str</span><span class="p">),</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;husl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: xlabel=&#39;AST&#39;, ylabel=&#39;SEASON&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/entrega_124_1.png" src="_images/entrega_124_1.png" />
 </div>
 </div>
 
