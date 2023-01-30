@@ -280,6 +280,7 @@ title="Print to PDF"
 <span class="kn">from</span> <span class="nn">sklearn.gaussian_process.kernels</span> <span class="kn">import</span> <span class="n">RBF</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">RocCurveDisplay</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">random</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -3006,7 +3007,7 @@ dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb7e48322f0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f7b0843a140&gt;
 </pre></div>
 </div>
 <img alt="_images/entrega_34_1.png" src="_images/entrega_34_1.png" />
@@ -4572,7 +4573,7 @@ Accuracy en test:  0.8159509202453987
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.7975460122699386
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.7730061349693251
 </pre></div>
 </div>
 </div>
@@ -4602,12 +4603,12 @@ Accuracy en test:  0.8159509202453987
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
 
-           0       0.72      0.75      0.74        61
-           1       0.85      0.82      0.84       102
+           0       0.70      0.69      0.69        61
+           1       0.82      0.82      0.82       102
 
-    accuracy                           0.80       163
-   macro avg       0.78      0.79      0.79       163
-weighted avg       0.80      0.80      0.80       163
+    accuracy                           0.77       163
+   macro avg       0.76      0.76      0.76       163
+weighted avg       0.77      0.77      0.77       163
 </pre></div>
 </div>
 </div>
@@ -4930,7 +4931,7 @@ weighted avg       0.73      0.73      0.73       163
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.roc_curve.RocCurveDisplay at 0x7fb7e5b74e20&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.roc_curve.RocCurveDisplay at 0x7f7b08110d60&gt;
 </pre></div>
 </div>
 </div>
@@ -4996,23 +4997,100 @@ weighted avg       0.81      0.80      0.81       163
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dummy          | score = 0.534 | time = 0.001s/0.001s
-KNN(3)         | score = 0.742 | time = 0.002s/0.007s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dummy          | score = 0.528 | time = 0.001s/0.001s
+KNN(3)         | score = 0.742 | time = 0.002s/0.006s
 RBF SVM        | score = 0.755 | time = 0.005s/0.003s
-Decision Tree  | score = 0.736 | time = 0.003s/0.001s
-Random Forest  | score = 0.755 | time = 0.019s/0.003s
+Decision Tree  | score = 0.724 | time = 0.003s/0.001s
+Random Forest  | score = 0.767 | time = 0.019s/0.003s
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Neural Net     | score = 0.822 | time = 0.200s/0.002s
-AdaBoost       | score = 0.779 | time = 0.084s/0.008s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Neural Net     | score = 0.822 | time = 0.193s/0.002s
+AdaBoost       | score = 0.779 | time = 0.082s/0.008s
 Naive Bayes    | score = 0.804 | time = 0.002s/0.001s
 QDA            | score = 0.816 | time = 0.002s/0.001s
 Linear SVC     | score = 0.804 | time = 0.003s/0.001s
 Linear SVM     | score = 0.804 | time = 0.004s/0.002s
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gaussian Proc  | score = 0.798 | time = 0.913s/0.003s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gaussian Proc  | score = 0.798 | time = 1.124s/0.005s
 LogisticRegr   | score = 0.816 | time = 0.005s/0.001s
+</pre></div>
+</div>
+</div>
+</div>
+<p>Creamos un dataframe con valores random entre 0 y 1 para poder hacer la predicción de nuestro modelo con más precisión</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prediccion</span><span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>                                                   
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">variables_elegidas_norm</span><span class="p">:</span> 
+    <span class="n">prediccion</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span> 
+
+<span class="n">prediccion</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FG_PCT_home_norm</th>
+      <th>FT_PCT_home_norm</th>
+      <th>FG3_PCT_home_norm</th>
+      <th>AST_home_norm</th>
+      <th>REB_home_norm</th>
+      <th>FG_PCT_away_norm</th>
+      <th>FT_PCT_away_norm</th>
+      <th>FG3_PCT_away_norm</th>
+      <th>AST_away_norm</th>
+      <th>REB_away_norm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.31654</td>
+      <td>0.877621</td>
+      <td>0.708492</td>
+      <td>0.437855</td>
+      <td>0.834458</td>
+      <td>0.459333</td>
+      <td>0.59155</td>
+      <td>0.660254</td>
+      <td>0.998809</td>
+      <td>0.525445</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Nuestro modelo entrenado con mayor accuracy es la regresión logistica, asi que usamos el dataframe que acabamos de crear para hacer la predicción del equipo que gana y vemos el resultado</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">logreg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">prediccion</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;El resultado ha sido 0. Gana el equipo local&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;El resultado ha sido 1. Gana el equipo visitante&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>El resultado ha sido 1. Gana el equipo visitante
 </pre></div>
 </div>
 </div>
