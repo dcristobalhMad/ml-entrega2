@@ -1,6 +1,8 @@
 # Fichero con las variables de kaggle
 .env
 
+# Variables Makefile
+Makefile.local
 # Dataframes en local
 dataframes/*
 
