@@ -278,9 +278,10 @@ title="Print to PDF"
 <span class="kn">from</span> <span class="nn">sklearn.discriminant_analysis</span> <span class="kn">import</span> <span class="n">QuadraticDiscriminantAnalysis</span>
 <span class="kn">from</span> <span class="nn">sklearn.gaussian_process</span> <span class="kn">import</span> <span class="n">GaussianProcessClassifier</span>
 <span class="kn">from</span> <span class="nn">sklearn.gaussian_process.kernels</span> <span class="kn">import</span> <span class="n">RBF</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">RocCurveDisplay</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">RocCurveDisplay</span><span class="p">,</span> <span class="n">mean_absolute_error</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span><span class="p">,</span> <span class="n">r2_score</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">kaggle</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -3007,7 +3008,7 @@ dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f7b0843a140&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f7238bfa1d0&gt;
 </pre></div>
 </div>
 <img alt="_images/entrega_34_1.png" src="_images/entrega_34_1.png" />
@@ -4573,7 +4574,7 @@ Accuracy en test:  0.8159509202453987
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.7730061349693251
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.7852760736196319
 </pre></div>
 </div>
 </div>
@@ -4603,12 +4604,12 @@ Accuracy en test:  0.8159509202453987
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
 
-           0       0.70      0.69      0.69        61
-           1       0.82      0.82      0.82       102
+           0       0.70      0.74      0.72        61
+           1       0.84      0.81      0.83       102
 
-    accuracy                           0.77       163
-   macro avg       0.76      0.76      0.76       163
-weighted avg       0.77      0.77      0.77       163
+    accuracy                           0.79       163
+   macro avg       0.77      0.78      0.77       163
+weighted avg       0.79      0.79      0.79       163
 </pre></div>
 </div>
 </div>
@@ -4931,7 +4932,7 @@ weighted avg       0.73      0.73      0.73       163
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.roc_curve.RocCurveDisplay at 0x7f7b08110d60&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sklearn.metrics._plot.roc_curve.RocCurveDisplay at 0x7f72385d9e70&gt;
 </pre></div>
 </div>
 </div>
@@ -4997,23 +4998,23 @@ weighted avg       0.81      0.80      0.81       163
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dummy          | score = 0.528 | time = 0.001s/0.001s
-KNN(3)         | score = 0.742 | time = 0.002s/0.006s
-RBF SVM        | score = 0.755 | time = 0.005s/0.003s
-Decision Tree  | score = 0.724 | time = 0.003s/0.001s
-Random Forest  | score = 0.767 | time = 0.019s/0.003s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dummy          | score = 0.503 | time = 0.001s/0.001s
+KNN(3)         | score = 0.742 | time = 0.002s/0.007s
+RBF SVM        | score = 0.755 | time = 0.006s/0.003s
+Decision Tree  | score = 0.736 | time = 0.003s/0.001s
+Random Forest  | score = 0.785 | time = 0.024s/0.003s
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Neural Net     | score = 0.822 | time = 0.193s/0.002s
-AdaBoost       | score = 0.779 | time = 0.082s/0.008s
-Naive Bayes    | score = 0.804 | time = 0.002s/0.001s
-QDA            | score = 0.816 | time = 0.002s/0.001s
-Linear SVC     | score = 0.804 | time = 0.003s/0.001s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Neural Net     | score = 0.816 | time = 0.227s/0.002s
+AdaBoost       | score = 0.779 | time = 0.094s/0.010s
+Naive Bayes    | score = 0.804 | time = 0.002s/0.002s
+QDA            | score = 0.816 | time = 0.002s/0.002s
+Linear SVC     | score = 0.804 | time = 0.004s/0.001s
 Linear SVM     | score = 0.804 | time = 0.004s/0.002s
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gaussian Proc  | score = 0.798 | time = 1.124s/0.005s
-LogisticRegr   | score = 0.816 | time = 0.005s/0.001s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gaussian Proc  | score = 0.798 | time = 1.273s/0.005s
+LogisticRegr   | score = 0.816 | time = 0.009s/0.002s
 </pre></div>
 </div>
 </div>
@@ -5021,7 +5022,7 @@ LogisticRegr   | score = 0.816 | time = 0.005s/0.001s
 <p>Creamos un dataframe con valores random entre 0 y 1 para poder hacer la predicción de nuestro modelo con más precisión</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prediccion</span><span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>                                                   
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prediccion</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>                                                   
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">variables_elegidas_norm</span><span class="p">:</span> 
     <span class="n">prediccion</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span> 
@@ -5064,16 +5065,16 @@ LogisticRegr   | score = 0.816 | time = 0.005s/0.001s
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.31654</td>
-      <td>0.877621</td>
-      <td>0.708492</td>
-      <td>0.437855</td>
-      <td>0.834458</td>
-      <td>0.459333</td>
-      <td>0.59155</td>
-      <td>0.660254</td>
-      <td>0.998809</td>
-      <td>0.525445</td>
+      <td>0.501516</td>
+      <td>0.021219</td>
+      <td>0.715306</td>
+      <td>0.848279</td>
+      <td>0.552447</td>
+      <td>0.376885</td>
+      <td>0.607768</td>
+      <td>0.516798</td>
+      <td>0.05946</td>
+      <td>0.679199</td>
     </tr>
   </tbody>
 </table>
@@ -5091,6 +5092,778 @@ LogisticRegr   | score = 0.816 | time = 0.005s/0.001s
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>El resultado ha sido 1. Gana el equipo visitante
+</pre></div>
+</div>
+</div>
+</div>
+<p>Podemos llegar a la conclusión de que despues de varios modelos entrenados, la precisión más alta ha sido el modelo de regresión logistica.</p>
+<p>Ahora vamos a predecir los puntos de Lebron James en un partido con un modelo de regresión</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stats_totales_lebron</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>GAME_ID</th>
+      <th>TEAM_ABBREVIATION</th>
+      <th>MIN</th>
+      <th>FGM</th>
+      <th>FGA</th>
+      <th>FG_PCT</th>
+      <th>FG3M</th>
+      <th>FG3A</th>
+      <th>FG3_PCT</th>
+      <th>FTM</th>
+      <th>...</th>
+      <th>DREB</th>
+      <th>REB</th>
+      <th>AST</th>
+      <th>STL</th>
+      <th>BLK</th>
+      <th>TO</th>
+      <th>PF</th>
+      <th>PTS</th>
+      <th>GAME_DATE_EST</th>
+      <th>SEASON</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>22200475</td>
+      <td>LAL</td>
+      <td>34:00</td>
+      <td>11.0</td>
+      <td>21.0</td>
+      <td>0.524</td>
+      <td>0.0</td>
+      <td>4.0</td>
+      <td>0.000</td>
+      <td>9.0</td>
+      <td>...</td>
+      <td>6.0</td>
+      <td>6.0</td>
+      <td>11.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>31.0</td>
+      <td>2022-12-21</td>
+      <td>2022.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>22200451</td>
+      <td>LAL</td>
+      <td>36:33</td>
+      <td>13.0</td>
+      <td>24.0</td>
+      <td>0.542</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>0.250</td>
+      <td>6.0</td>
+      <td>...</td>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>9.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>33.0</td>
+      <td>2022-12-18</td>
+      <td>2022.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>22200437</td>
+      <td>LAL</td>
+      <td>35:56</td>
+      <td>13.0</td>
+      <td>21.0</td>
+      <td>0.619</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>0.250</td>
+      <td>3.0</td>
+      <td>...</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>4.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>30.0</td>
+      <td>2022-12-16</td>
+      <td>2022.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>22200413</td>
+      <td>LAL</td>
+      <td>42:47</td>
+      <td>14.0</td>
+      <td>25.0</td>
+      <td>0.560</td>
+      <td>3.0</td>
+      <td>11.0</td>
+      <td>0.273</td>
+      <td>2.0</td>
+      <td>...</td>
+      <td>9.0</td>
+      <td>9.0</td>
+      <td>9.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>33.0</td>
+      <td>2022-12-13</td>
+      <td>2022.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>22200396</td>
+      <td>LAL</td>
+      <td>36:52</td>
+      <td>14.0</td>
+      <td>24.0</td>
+      <td>0.583</td>
+      <td>2.0</td>
+      <td>6.0</td>
+      <td>0.333</td>
+      <td>5.0</td>
+      <td>...</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>35.0</td>
+      <td>2022-12-11</td>
+      <td>2022.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 23 columns</p>
+</div></div></div>
+</div>
+<p>Borramos las columnas que no son relevantes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stats_totales_lebron</span> <span class="o">=</span> <span class="n">stats_totales_lebron</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;GAME_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;TEAM_ABBREVIATION&#39;</span><span class="p">,</span> <span class="s1">&#39;MIN&#39;</span><span class="p">,</span> <span class="s1">&#39;GAME_DATE_EST&#39;</span><span class="p">,</span> <span class="s1">&#39;SEASON&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">stats_totales_lebron</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FGM</th>
+      <th>FGA</th>
+      <th>FG_PCT</th>
+      <th>FG3M</th>
+      <th>FG3A</th>
+      <th>FG3_PCT</th>
+      <th>FTM</th>
+      <th>FTA</th>
+      <th>FT_PCT</th>
+      <th>OREB</th>
+      <th>DREB</th>
+      <th>REB</th>
+      <th>AST</th>
+      <th>STL</th>
+      <th>BLK</th>
+      <th>TO</th>
+      <th>PF</th>
+      <th>PTS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11.0</td>
+      <td>21.0</td>
+      <td>0.524</td>
+      <td>0.0</td>
+      <td>4.0</td>
+      <td>0.000</td>
+      <td>9.0</td>
+      <td>10.0</td>
+      <td>0.90</td>
+      <td>0.0</td>
+      <td>6.0</td>
+      <td>6.0</td>
+      <td>11.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>31.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>13.0</td>
+      <td>24.0</td>
+      <td>0.542</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>0.250</td>
+      <td>6.0</td>
+      <td>8.0</td>
+      <td>0.75</td>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>7.0</td>
+      <td>9.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>33.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>13.0</td>
+      <td>21.0</td>
+      <td>0.619</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>0.250</td>
+      <td>3.0</td>
+      <td>4.0</td>
+      <td>0.75</td>
+      <td>1.0</td>
+      <td>8.0</td>
+      <td>9.0</td>
+      <td>4.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>30.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.0</td>
+      <td>25.0</td>
+      <td>0.560</td>
+      <td>3.0</td>
+      <td>11.0</td>
+      <td>0.273</td>
+      <td>2.0</td>
+      <td>4.0</td>
+      <td>0.50</td>
+      <td>0.0</td>
+      <td>9.0</td>
+      <td>9.0</td>
+      <td>9.0</td>
+      <td>2.0</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>33.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>14.0</td>
+      <td>24.0</td>
+      <td>0.583</td>
+      <td>2.0</td>
+      <td>6.0</td>
+      <td>0.333</td>
+      <td>5.0</td>
+      <td>5.0</td>
+      <td>1.00</td>
+      <td>1.0</td>
+      <td>4.0</td>
+      <td>5.0</td>
+      <td>5.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>35.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Vemos las columnas del dataframe</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stats_totales_lebron</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;FGM&#39;, &#39;FGA&#39;, &#39;FG_PCT&#39;, &#39;FG3M&#39;, &#39;FG3A&#39;, &#39;FG3_PCT&#39;, &#39;FTM&#39;, &#39;FTA&#39;,
+       &#39;FT_PCT&#39;, &#39;OREB&#39;, &#39;DREB&#39;, &#39;REB&#39;, &#39;AST&#39;, &#39;STL&#39;, &#39;BLK&#39;, &#39;TO&#39;, &#39;PF&#39;,
+       &#39;PTS&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variables_escogidas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;FGM&#39;</span><span class="p">,</span> <span class="s1">&#39;FGA&#39;</span><span class="p">,</span> <span class="s1">&#39;FG_PCT&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3M&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3A&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT&#39;</span><span class="p">,</span> <span class="s1">&#39;FTM&#39;</span><span class="p">,</span> <span class="s1">&#39;FTA&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT&#39;</span><span class="p">,</span> <span class="s1">&#39;OREB&#39;</span><span class="p">,</span> <span class="s1">&#39;DREB&#39;</span><span class="p">,</span> <span class="s1">&#39;REB&#39;</span><span class="p">,</span> <span class="s1">&#39;AST&#39;</span><span class="p">,</span> <span class="s1">&#39;STL&#39;</span><span class="p">,</span> <span class="s1">&#39;BLK&#39;</span><span class="p">,</span> <span class="s1">&#39;TO&#39;</span><span class="p">,</span> <span class="s1">&#39;PF&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Añadimos las variables escogidas a la X y en la y el target de los puntos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_lebron</span> <span class="o">=</span> <span class="n">stats_totales_lebron</span><span class="p">[</span><span class="n">variables_escogidas</span><span class="p">]</span>
+<span class="n">y_lebron</span> <span class="o">=</span> <span class="n">stats_totales_lebron</span><span class="p">[</span><span class="s1">&#39;PTS&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hacemos el split entre train y test</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X_lebron</span><span class="p">,</span> 
+    <span class="n">y_lebron</span><span class="p">,</span> 
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vemos las 8 variables más significativas</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">SelectKBest</span><span class="p">,</span> <span class="n">chi2</span><span class="p">,</span> <span class="n">f_regression</span>
+
+<span class="c1"># Seleccionamos las 8 mejores variables</span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">SelectKBest</span><span class="p">(</span><span class="n">f_regression</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">X_select</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">X_select</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span>
+
+<span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">feature_names_in_</span><span class="p">,</span> <span class="n">selector</span><span class="o">.</span><span class="n">scores_</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Variable </span><span class="si">%s</span><span class="s1">: </span><span class="si">%.4f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1216, 8)
+[&#39;FGM&#39; &#39;FGA&#39; &#39;FG_PCT&#39; &#39;FG3M&#39; &#39;FG3A&#39; &#39;FG3_PCT&#39; &#39;FTM&#39; &#39;FTA&#39;]
+Variable FGM: 4876.1375
+Variable FGA: 1354.2733
+Variable FG_PCT: 418.2969
+Variable FG3M: 400.6381
+Variable FG3A: 293.5535
+Variable FG3_PCT: 168.7573
+Variable FTM: 387.3912
+Variable FTA: 373.7594
+Variable FT_PCT: 41.2125
+Variable OREB: 34.1568
+Variable DREB: 45.1225
+Variable REB: 69.6783
+Variable AST: 0.8797
+Variable STL: 11.7895
+Variable BLK: 14.7718
+Variable TO: 2.2874
+Variable PF: 27.1240
+</pre></div>
+</div>
+</div>
+</div>
+<p>Normalizamos las variables de X</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaler_lebron</span> <span class="o">=</span> <span class="n">prep</span><span class="o">.</span><span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">scaler_lebron</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">variables_escogidas</span><span class="p">])</span>
+<span class="n">variables_escogidas_norm</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;FGM_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FGA_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG_PCT_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3M_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3A_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FG3_PCT_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FTM_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FTA_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;FT_PCT_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;OREB_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;DREB_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;REB_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;AST_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;STL_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;BLK_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;TO_norm&#39;</span><span class="p">,</span> <span class="s1">&#39;PF_norm&#39;</span><span class="p">]</span>
+<span class="c1"># Creamos columnas con datos normalizados</span>
+<span class="n">X_train</span><span class="p">[</span><span class="n">variables_escogidas_norm</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span>
+<span class="c1"># Borramos las variables no normalizadas</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span> <span class="o">=</span> <span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">variables_escogidas</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FGM_norm</th>
+      <th>FGA_norm</th>
+      <th>FG_PCT_norm</th>
+      <th>FG3M_norm</th>
+      <th>FG3A_norm</th>
+      <th>FG3_PCT_norm</th>
+      <th>FTM_norm</th>
+      <th>FTA_norm</th>
+      <th>FT_PCT_norm</th>
+      <th>OREB_norm</th>
+      <th>DREB_norm</th>
+      <th>REB_norm</th>
+      <th>AST_norm</th>
+      <th>STL_norm</th>
+      <th>BLK_norm</th>
+      <th>TO_norm</th>
+      <th>PF_norm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>287</th>
+      <td>0.20</td>
+      <td>0.257143</td>
+      <td>0.393617</td>
+      <td>0.000</td>
+      <td>0.307692</td>
+      <td>0.000</td>
+      <td>0.157895</td>
+      <td>0.166667</td>
+      <td>0.750</td>
+      <td>0.285714</td>
+      <td>0.3750</td>
+      <td>0.421053</td>
+      <td>0.578947</td>
+      <td>0.142857</td>
+      <td>0.6</td>
+      <td>0.181818</td>
+      <td>0.333333</td>
+    </tr>
+    <tr>
+      <th>712</th>
+      <td>0.55</td>
+      <td>0.457143</td>
+      <td>0.684397</td>
+      <td>0.125</td>
+      <td>0.076923</td>
+      <td>1.000</td>
+      <td>0.368421</td>
+      <td>0.333333</td>
+      <td>0.875</td>
+      <td>0.142857</td>
+      <td>0.6250</td>
+      <td>0.578947</td>
+      <td>0.157895</td>
+      <td>0.428571</td>
+      <td>0.2</td>
+      <td>0.454545</td>
+      <td>0.166667</td>
+    </tr>
+    <tr>
+      <th>1723</th>
+      <td>0.70</td>
+      <td>0.657143</td>
+      <td>0.635934</td>
+      <td>0.625</td>
+      <td>0.615385</td>
+      <td>0.625</td>
+      <td>0.263158</td>
+      <td>0.333333</td>
+      <td>0.625</td>
+      <td>0.142857</td>
+      <td>0.5625</td>
+      <td>0.526316</td>
+      <td>0.315789</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.166667</td>
+    </tr>
+    <tr>
+      <th>1359</th>
+      <td>0.65</td>
+      <td>0.400000</td>
+      <td>0.904255</td>
+      <td>0.500</td>
+      <td>0.384615</td>
+      <td>0.800</td>
+      <td>0.157895</td>
+      <td>0.166667</td>
+      <td>0.750</td>
+      <td>0.428571</td>
+      <td>0.2500</td>
+      <td>0.368421</td>
+      <td>0.157895</td>
+      <td>0.000000</td>
+      <td>0.2</td>
+      <td>0.363636</td>
+      <td>0.166667</td>
+    </tr>
+    <tr>
+      <th>591</th>
+      <td>0.65</td>
+      <td>0.485714</td>
+      <td>0.768322</td>
+      <td>0.125</td>
+      <td>0.230769</td>
+      <td>0.333</td>
+      <td>0.473684</td>
+      <td>0.458333</td>
+      <td>0.818</td>
+      <td>0.000000</td>
+      <td>0.3125</td>
+      <td>0.263158</td>
+      <td>0.210526</td>
+      <td>0.285714</td>
+      <td>0.4</td>
+      <td>0.090909</td>
+      <td>0.666667</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">scaler_lebron</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">variables_escogidas</span><span class="p">])</span>
+<span class="n">X_test</span><span class="p">[</span><span class="n">variables_escogidas_norm</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span> <span class="o">=</span> <span class="s1">&#39;number&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">variables_escogidas</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">X_test</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FGM_norm</th>
+      <th>FGA_norm</th>
+      <th>FG_PCT_norm</th>
+      <th>FG3M_norm</th>
+      <th>FG3A_norm</th>
+      <th>FG3_PCT_norm</th>
+      <th>FTM_norm</th>
+      <th>FTA_norm</th>
+      <th>FT_PCT_norm</th>
+      <th>OREB_norm</th>
+      <th>DREB_norm</th>
+      <th>REB_norm</th>
+      <th>AST_norm</th>
+      <th>STL_norm</th>
+      <th>BLK_norm</th>
+      <th>TO_norm</th>
+      <th>PF_norm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>482</th>
+      <td>0.50</td>
+      <td>0.457143</td>
+      <td>0.621749</td>
+      <td>0.250</td>
+      <td>0.384615</td>
+      <td>0.400</td>
+      <td>0.368421</td>
+      <td>0.375000</td>
+      <td>0.778</td>
+      <td>0.142857</td>
+      <td>0.2500</td>
+      <td>0.263158</td>
+      <td>0.263158</td>
+      <td>0.000000</td>
+      <td>0.2</td>
+      <td>0.363636</td>
+      <td>0.666667</td>
+    </tr>
+    <tr>
+      <th>1506</th>
+      <td>0.40</td>
+      <td>0.400000</td>
+      <td>0.556738</td>
+      <td>0.125</td>
+      <td>0.230769</td>
+      <td>0.333</td>
+      <td>0.052632</td>
+      <td>0.083333</td>
+      <td>0.500</td>
+      <td>0.000000</td>
+      <td>0.2500</td>
+      <td>0.210526</td>
+      <td>0.368421</td>
+      <td>0.428571</td>
+      <td>0.0</td>
+      <td>0.272727</td>
+      <td>0.333333</td>
+    </tr>
+    <tr>
+      <th>950</th>
+      <td>0.45</td>
+      <td>0.371429</td>
+      <td>0.665485</td>
+      <td>0.250</td>
+      <td>0.307692</td>
+      <td>0.500</td>
+      <td>0.157895</td>
+      <td>0.208333</td>
+      <td>0.600</td>
+      <td>0.000000</td>
+      <td>0.1875</td>
+      <td>0.157895</td>
+      <td>0.473684</td>
+      <td>0.285714</td>
+      <td>0.0</td>
+      <td>0.363636</td>
+      <td>0.166667</td>
+    </tr>
+    <tr>
+      <th>1005</th>
+      <td>0.65</td>
+      <td>0.628571</td>
+      <td>0.614657</td>
+      <td>0.125</td>
+      <td>0.692308</td>
+      <td>0.111</td>
+      <td>0.526316</td>
+      <td>0.541667</td>
+      <td>0.769</td>
+      <td>0.000000</td>
+      <td>0.3125</td>
+      <td>0.263158</td>
+      <td>0.473684</td>
+      <td>0.285714</td>
+      <td>0.2</td>
+      <td>0.363636</td>
+      <td>0.500000</td>
+    </tr>
+    <tr>
+      <th>705</th>
+      <td>0.60</td>
+      <td>0.542857</td>
+      <td>0.644208</td>
+      <td>0.000</td>
+      <td>0.153846</td>
+      <td>0.000</td>
+      <td>0.105263</td>
+      <td>0.166667</td>
+      <td>0.500</td>
+      <td>0.000000</td>
+      <td>0.1875</td>
+      <td>0.157895</td>
+      <td>0.210526</td>
+      <td>0.428571</td>
+      <td>0.2</td>
+      <td>0.363636</td>
+      <td>0.500000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Una vez normalizadas las columnas de X en train y test, probamos un modelo de arbol de decisiones</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+<span class="c1"># Los inicialiamos con sus parámetros por defecto (salvo la semilla)</span>
+<span class="n">tree_reg</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Los entrenamos...</span>
+<span class="n">tree_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Y los evaluamos en el conjunto de test</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Regresión&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">preds</span> <span class="o">=</span> <span class="n">tree_reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="n">mae_test</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
+<span class="n">mape_test</span> <span class="o">=</span> <span class="n">mean_absolute_percentage_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MAE en test: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">mae_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;MAPE en test: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">mape_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R Squared Score is:&#39;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Regresión
+----------
+MAE en test: 0.912
+MAPE en test: 0.036
+
+R Squared Score is: 0.9654147310205599
 </pre></div>
 </div>
 </div>
